@@ -1,0 +1,99 @@
+import random
+
+#card and deck values
+values = ['Ace'] + list(range(2, 11)) + ['Jack', 'Queen', 'King']
+suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+deck = [(value, suit) for value in values for suit in suits]
+
+def initialize_deck():
+    return [(value, suit) for value in values for suit in suits]
+
+def card_value(card): #Jack, queen, king and ace values
+    if card[0] in ('Jack', 'Queen', 'King'):
+       return 10
+    elif card[0] == 'Ace':
+        return 11
+    else:
+        return (card[0])
+
+def deal_initial_hands(deck):
+    return [deck.pop(), deck.pop()], [deck.pop(), deck.pop()]
+
+def play_game():
+    deck = initialize_deck()
+    random.shuffle(deck)
+
+    player_hand, computer_hand = deal_initial_hands(deck)
+
+    while True:
+        player_score = sum(card_value(card) for card in player_hand)
+        computer_score = sum(card_value(card) for card in computer_hand)
+
+        print("*" * 48)
+        print("*                *BLACKJACK*                   *")
+        print("*" * 48 )
+        print("Your cards: ", player_hand)
+        print("Opponents cards", computer_hand)
+        print("Select option:")
+        print("[1]Play")
+        print("[2]Halt")
+        choice = input(":")
+
+
+        if choice == "1":
+            new_card = deck.pop()
+            player_hand.append(new_card)
+        elif choice == "2":
+            break
+        else:
+            print("Invalid input.")
+            continue
+
+        if player_score > 21:
+            print("Opponent has:", computer_hand)
+            print("Opponents score is:", computer_score)
+            print("Your score is:")
+            print("You lose due to exceeding 21")
+            break
+    while computer_score < 17:
+        new_card = deck.pop()
+        computer_hand.append(new_card)
+        computer_score += card_value(new_card)
+
+    print("Opponent cards:", computer_hand)
+    print("Opponent score:", computer_score)
+
+    # Things to fix:
+    # 1. When player exceed 21 the computer may keep drawing cards even tho it won resulting in player victory despite exceeding 21
+    # 2. When asked to play again invalid input plays but game restarts anyways
+    if computer_score > 21:
+        print("Opponents score is:", computer_score)
+        print("Your score:", player_score)
+        print("You win due to opponent exceeding 21")
+    elif player_score > 21:
+        print("Opponents score:", computer_score)
+        print("Your score:", player_score)
+        print("You lose due to exceedding 21")
+    elif player_score > computer_score:
+        print("Opponents score is:", computer_score)
+        print("Your score:", player_score)
+        print("You win due to higher score than opponent")
+    elif computer_score > player_score:
+        print("Opponents score is:", computer_score)
+        print("Your score:", player_score)
+        print("Opponent win due to higher score than player")
+    else:
+        print("Opponents score is:", computer_score)
+        print("Your score:", player_score)
+        print("It's a tie")
+
+# Game loop replay/close game
+while True:
+    play_game()
+
+    replay = input("Do you want to play again? (yes/no): ")
+    if replay == "no":
+        print("Thank you for playing!")
+        break
+    elif replay != "yes":
+        print("Invalid inpu
