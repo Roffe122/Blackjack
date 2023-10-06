@@ -59,7 +59,8 @@ def play_game():
             print("Your score is:")
             print("You lose due to exceeding 21")
             break
-    while computer_score < 17:
+    # Check if the player has busted (exceeded 21)
+    while computer_score < 17 and player_score <=21:
         new_card = deck.pop()
         computer_hand.append(new_card)
         computer_score += card_value(new_card)
@@ -68,8 +69,10 @@ def play_game():
     print("Opponent score:", computer_score)
 
     # Things to fix:
-    # 1. When player exceed 21 the computer may keep drawing cards even tho it won resulting in player victory despite exceeding 21
-    # 2. When asked to play again invalid input plays but game restarts anyways
+    # 1. (Fixed) When player exceed 21 the computer may keep drawing cards even tho it won resulting in player victory despite exceeding 21
+    # 2. (Fixed)When asked to play again invalid input plays but game restarts anyways
+
+    # Determines the winner
     if computer_score > 21:
         print("Opponents score is:", computer_score)
         print("Your score:", player_score)
@@ -95,9 +98,12 @@ def play_game():
 while True:
     play_game()
 
-    replay = input("Do you want to play again? (yes/no): ")
-    if replay == "no":
-        print("Thank you for playing!")
-        break
-    elif replay != "yes":
-        print("Invalid input. Please enter 'yes' or 'no'.")
+    while True:
+        replay = input("Do you want to play again? (yes/no): ").lower()
+        if replay == "no":
+            print("Thank you for playing!")
+            exit()  # Exit the program
+        elif replay == "yes":
+            break  # Break out of the inner loop to start a new game
+        else:
+            print("Invalid input. Please enter 'yes' or 'no'.")
