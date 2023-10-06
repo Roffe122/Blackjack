@@ -1,13 +1,15 @@
 import random
 
-#card and deck values
+# Define card and deck values
 values = ['Ace'] + list(range(2, 11)) + ['Jack', 'Queen', 'King']
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 deck = [(value, suit) for value in values for suit in suits]
 
+# Initialize and return a shuffled deck of cards
 def initialize_deck():
     return [(value, suit) for value in values for suit in suits]
 
+# Get values of cards
 def card_value(card): #Jack, queen, king and ace values
     if card[0] in ('Jack', 'Queen', 'King'):
        return 10
@@ -16,9 +18,11 @@ def card_value(card): #Jack, queen, king and ace values
     else:
         return (card[0])
 
+# Deal the initial hands for the player and the computer
 def deal_initial_hands(deck):
     return [deck.pop(), deck.pop()], [deck.pop(), deck.pop()]
 
+# Play the game 
 def play_game():
     deck = initialize_deck()
     random.shuffle(deck)
@@ -96,4 +100,4 @@ while True:
         print("Thank you for playing!")
         break
     elif replay != "yes":
-        print("Invalid inpu
+        print("Invalid input. Please enter 'yes' or 'no'.")
